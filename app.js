@@ -1,10 +1,11 @@
-const express = require('express');
-const checklistRouter = require('./src/routes/checklist');
+import express, { json } from 'express';
+import './config/database.js';
+import checklistRouter from './src/routes/checklist.js';
 
 const app = express();
 const port = 3000;
 
-app.use(express.json());
+app.use(json());
 app.use('/checklists', checklistRouter);
 
 app.listen(port, () => {

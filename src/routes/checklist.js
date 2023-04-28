@@ -1,6 +1,6 @@
-const express = require('express');
+import { Router } from 'express';
 
-const router = express.Router();
+const router = Router();
 
 router.get('/', (req, res) => {
   console.log('Olá');
@@ -27,4 +27,4 @@ router.delete('/:id', (req, res) => {
   res.send(`DELETE ID: ${req.params.id}`);
 });
 
-module.exports = router;
+export default router;

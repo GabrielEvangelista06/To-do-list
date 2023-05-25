@@ -11,7 +11,7 @@ router.get('/', async (request, response) => {
   } catch (err) {
     response
       .status(500)
-      .render('pages/error', { error: 'Erro ao exibir as listas' });
+      .render('pages/error', { errors: 'Erro ao exibir as listas' });
   }
 });
 
@@ -22,7 +22,7 @@ router.get('/new', async (request, response) => {
   } catch (err) {
     response
       .status(500)
-      .render('pages/error', { error: 'Erro ao carregar o formulário' });
+      .render('pages/error', { errors: 'Erro ao carregar o formulário' });
   }
 });
 
@@ -32,7 +32,7 @@ router.get('/:id/edit', async (request, response) => {
     response.status(200).render('checklists/edit', { checklist: checklist });
   } catch (err) {
     response.status(500).render('pages/error', {
-      err: 'Erro ao exibir a edição de lista de tarefas',
+      errors: 'Erro ao exibir a edição de lista de tarefas',
     });
   }
 });
@@ -47,18 +47,20 @@ router.post('/', async (request, response) => {
   } catch (err) {
     response
       .status(422)
-      .render('checklists/new', { checklist: { ...checklist, err } });
+      .render('checklists/new', { checklist: { ...checklist, errors: err } });
   }
 });
 
 router.get('/:id', async (request, response) => {
   try {
-    let checklist = await Checklist.findById(request.params.id);
+    let checklist = await Checklist.findById(request.params.id).populate(
+      'tasks'
+    );
     response.status(200).render('checklists/show', { checklist: checklist });
   } catch (err) {
     response
       .status(422)
-      .render('pages/error', { error: 'Erro ao exibir as listas de tarefas' });
+      .render('pages/error', { errors: 'Erro ao exibir as listas de tarefas' });
   }
 });
 
@@ -85,7 +87,7 @@ router.delete('/:id', async (request, response) => {
   } catch (err) {
     response
       .status(500)
-      .render('pages/error', { error: 'Erro ao deletar a lista de tarefas' });
+      .render('pages/error', { errors: 'Erro ao deletar a lista de tarefas' });
   }
 });
 
